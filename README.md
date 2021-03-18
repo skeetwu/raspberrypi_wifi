@@ -1,8 +1,9 @@
 # raspberrypi_wifi
 
 #### 软件架构
-pre_install.sh #
-add 'bash start_wifi.sh full path' to rc.local before exit 0
+pre_install.sh #出厂前run一次
+start_wifi.sh #开机启动
+  将 'bash start_wifi.sh full path' 加到 rc.local 文件的 exit 0之前
 
 #### 安装教程
 
