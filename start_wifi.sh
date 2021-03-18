@@ -14,7 +14,7 @@ check_wifi_info()
     echo "无WIFI信息" >>$LOG_DIR
     wifi_info_existing=1
   fi
-  return $wifi_info_existing
+  echo $wifi_info_existing
 }
 
 check_wifi_status()
@@ -38,7 +38,7 @@ check_wifi_status()
     fi
     sleep 30s
   done
-  return $tmp_wifi_enabled_flag
+  echo $tmp_wifi_enabled_flag
 }
 
 check_AP_status()
@@ -63,7 +63,7 @@ check_AP_status()
     fi
     sleep 5s
   done
-  return $tmp_AP_status_flag
+  echo $tmp_AP_status_flag
 }
 
 delete_wifi_info()
@@ -85,21 +85,16 @@ echo `date "+%y-%m-%d %H:%M:%S"` >>$LOG_DIR 2>&1
 
 while true
 do
-  check_wifi_info
-  wifi_info_flag=$?
   # check 是否有WIFI信息
-  if $wifi_info_flag; then
+  if [ "$(check_wifi_info)" = "0" ]; then
     # 有WIFI信息
-    wifi_enabled_flag=check_wifi_status
-    if $wifi_enabled_flag; then
+    if [ "$(check_wifi_status)" = "0" ]; then
       echo "WIFI连接正常" >>$LOG_DIR
     else
       echo "有WIFI信息,WIFI连接失败，即将重启WIFI..." >>$LOG_DIR
       wpa_cli -i wlan0 reconfigure >>$LOG_DIR 2>&1
       # 因为是重启WIFI 多check几次
-      check_wifi_status
-      tmp_wifi_enabled_flag=$?
-      if [ "$tmp_wifi_enabled_flag" = "1" ]; then
+      if [ "$(check_wifi_status)" = "1" ]; then
         echo "WIFI连接失败,WIFI信息有误，删除错误信息并重启热点..." >>$LOG_DIR
         delete_wifi_info
         start_AP
@@ -107,10 +102,7 @@ do
     fi
   else
     # 无WIFI信息
-    check_AP_status
-    AP_enabled_flag=$?
-    echo $AP_enabled_flag
-    if [ "$AP_enabled_flag" = "1" ]; then
+    if [ "$(check_AP_status)" = "1" ]; then
       echo "无WIFI信息，热点未启动，即将启动热点..." >>$LOG_DIR
       start_AP
     fi
