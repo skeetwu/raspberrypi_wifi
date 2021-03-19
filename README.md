@@ -1,8 +1,8 @@
 # raspberrypi_wifi
 
 #### 软件架构
-start.sh#出厂前执行一次
-- 功能：
+start.sh#安装程序,出厂前执行一次
+- 主要功能：
  1. 下载软件到指定目录
  2. 解压修改权限
  3. 执行pre_install.sh #安装所需软件及相关配置;
@@ -23,10 +23,9 @@ start.sh#出厂前执行一次
 3.  ./start.sh
 
 #### 使用说明
-1. 热点信息：
+1. 安装后重启树莓派，发现热点信息：
    ssid=serena-raspberry;
    wpa_passphrase=12345678;
-   wpa_key_mgmt=WPA-PSK
 2. 连接热点后，可以打开网页http://10.0.0.1，
    输入想要连接的WIFI账号密码
 3. 如果WIFI连接失败会自动转为热点状态
