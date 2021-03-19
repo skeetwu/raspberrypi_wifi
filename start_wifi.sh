@@ -1,5 +1,6 @@
 #!/bin/sh
 LOG_DIR=/tmp/start_wifi.log
+wifi_need2update_file=/etc/raspberrypi_wifi/data/wifi_need2update_file
 
 check_wifi_info()
 {
@@ -79,7 +80,18 @@ start_AP()
   systemctl restart dnsmasq >> $LOG_DIR 2>&1
 }
 
-#-------------------------------------------------------------
+restart_wifi()
+{
+  wpa_cli -i wlan0 reconfigure >>$LOG_DIR 2>&1
+  # 因为是重启WIFI 多check几次
+  if [ "$(check_wifi_status)" = "1" ]; then
+    echo "WIFI连接失败,WIFI信息有误，删除错误信息并重启热点..." >>$LOG_DIR
+    delete_wifi_info
+    start_AP
+  fi
+}
+
+######################################################################
 echo ------开机启动------ >> $LOG_DIR
 echo `date "+%y-%m-%d %H:%M:%S"` >>$LOG_DIR 2>&1
 
@@ -88,17 +100,18 @@ do
   # check 是否有WIFI信息
   if [ "$(check_wifi_info)" = "0" ]; then
     # 有WIFI信息
-    if [ "$(check_wifi_status)" = "0" ]; then
-      echo "WIFI连接正常" >>$LOG_DIR
-    else
-      echo "有WIFI信息,WIFI连接失败，即将重启WIFI..." >>$LOG_DIR
-      wpa_cli -i wlan0 reconfigure >>$LOG_DIR 2>&1
-      # 因为是重启WIFI 多check几次
-      if [ "$(check_wifi_status)" = "1" ]; then
-        echo "WIFI连接失败,WIFI信息有误，删除错误信息并重启热点..." >>$LOG_DIR
-        delete_wifi_info
-        start_AP
+    if [ "$(cat $wifi_need2update_file)" != "True" ];then
+      echo "不是刚更新的WIFI信息" >>$LOG_DIR
+      if [ "$(check_wifi_status)" = "0" ]; then
+        echo "WIFI连接正常" >>$LOG_DIR
+      else
+        echo "有WIFI信息，WIFI连接失败，即将重启WIFI..." >>$LOG_DIR
+        restart_wifi
       fi
+    else
+      echo "False" > $wifi_need2update_file
+      echo "刚更新了WIFI信息，即将重启WIFI..." >>$LOG_DIR
+      restart_wifi
     fi
   else
     # 无WIFI信息

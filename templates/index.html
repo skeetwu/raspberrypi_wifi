@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>from_test</title>
+</head>
+<body>
+{% if msg %}
+    {{ msg }}
+{% else %}
+<form method="post" action="/update_wifi_info">
+    SSID：<input type="text" name="ssid"/></br>
+    Password：<input type="text" name="ssid_password"/></br>
+    Key_mgmt：<input type="text" name="key_mgmt" placeholder="WPA-PSK"/></br>
+    <input type="submit" value="Submit"/>
+</form>
+{% endif %}
+</body>
+</html>

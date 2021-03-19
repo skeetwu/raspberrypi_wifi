@@ -4,6 +4,7 @@ echo ------出厂前执行------ >> $LOG_DIR
 echo `date "+%y-%m-%d %H:%M:%S"` >>$LOG_DIR 2>&1
 
 echo install hostapd and dnsmasq >>$LOG_DIR
+pip install flask >>$LOG_DIR 2>&1
 apt update >>$LOG_DIR 2>&1
 apt install hostapd >>$LOG_DIR 2>&1
 systemctl stop hostapd >>$LOG_DIR 2>&1
@@ -20,8 +21,8 @@ wpa_passphrase=12345678
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
-hw_mode=b
-channel=8
+hw_mode=b #WiFi网络模式
+channel=8 #根据hw_mode填写正确的信道编号
 auth_algs=1
 wpa=2
 EOF

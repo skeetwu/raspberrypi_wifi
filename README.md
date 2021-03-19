@@ -1,26 +1,24 @@
 # raspberrypi_wifi
 
 #### 软件架构
-pre_install.sh #出厂前run一次
-start_wifi.sh #开机启动
-  将 'bash start_wifi.sh full path' 加到 rc.local 文件的 exit 0之前
+start.sh#出厂前执行一次
+功能：
+ 1. 下载软件到指定目录
+ 2. 解压修改权限
+ 3. 执行pre_install.sh #安装所需软件及相关配置
+    其中的如下配置需根据具体树莓派型号验证更新
+    hw_mode=b #WiFi网络模式
+    channel=8 #根据hw_mode填写正确的信道编号
+
+ 4. 设置开机启动
+    - 添加python update_wifi_web.py & 到/etc/rc.local
+      update_wifi_web.py 提供web界面，以便用户输入WIFI信息
+    - 添加bash start_wifi.sh & 到/etc/rc.local
+      start_wifi.sh 负责启动热点，监控用户WIFI信息输入，连接、切换并监测相关状态。
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+1.  下载https://gitee.com/serena-li/raspberrypi_wifi/blob/master/start.sh到树莓派某个目录
+2.  chmod +x start.sh
+3.  ./start.sh
 
