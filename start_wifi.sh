@@ -22,7 +22,7 @@ check_wifi_status()
 {
   # check WIFI是否连接成功
   min=0
-  max=2
+  max=5
   tmp_wifi_enabled_flag=1
   echo 'check_wifi_status...' >>$LOG_DIR
 
