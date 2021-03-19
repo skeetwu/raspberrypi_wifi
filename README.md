@@ -22,3 +22,15 @@ start.sh#出厂前执行一次
 2.  chmod +x start.sh
 3.  ./start.sh
 
+#### 使用说明
+1. 热点信息：
+   ssid=serena-raspberry
+   wpa_passphrase=12345678
+   wpa_key_mgmt=WPA-PSK
+2. 连接热点后，可以打开网页http://10.0.0.1，
+   输入想要连接的WIFI账号密码
+3. 如果WIFI连接失败会自动转为热点状态
+
+
+
+

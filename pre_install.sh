@@ -21,8 +21,8 @@ wpa_passphrase=12345678
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP
-hw_mode=b #WiFi网络模式
-channel=8 #根据hw_mode填写正确的信道编号
+hw_mode=b
+channel=8
 auth_algs=1
 wpa=2
 EOF

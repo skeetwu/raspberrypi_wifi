@@ -15,17 +15,17 @@ bash pre_install.sh
 work_dir=/etc/raspberrypi_wifi
 #设置开机启动
 echo "设置开机启动..."
-if [ "$(grep update_wifi_web.py)" != "" ];then
+if [ "$(grep update_wifi_web.py /etc/rc.local)" != "" ];then
   # 删除已有的信息
   sed -i '/update_wifi_web.py/d' /etc/rc.local
 fi
-sed -i '/"exit 0"/i\"bash $work_dir/update_wifi_web.py &"' /etc/rc.local
+sed -i '/^exit 0/i\python /etc/raspberrypi_wifi/update_wifi_web.py &' /etc/rc.local
 
-if [ "$(grep start_wifi.sh)" != "" ];then
+if [ "$(grep start_wifi.sh /etc/rc.local)" != "" ];then
   # 删除已有的
   sed -i '/start_wifi.sh/d' /etc/rc.local
 fi
-sed -i '/"exit 0"/i\"bash $work_dir/start_wifi.sh &"' /etc/rc.local
+sed -i '/^exit 0/i\bash /etc/raspberrypi_wifi/start_wifi.sh &' /etc/rc.local
 
 
 echo "设置完成"
