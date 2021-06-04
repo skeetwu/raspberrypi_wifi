@@ -18,7 +18,7 @@ start.sh#安装程序,出厂前执行一次
 
 #### 安装教程
 
-1.  下载https://gitee.com/serena-li/raspberrypi_wifi/blob/master/start.sh到树莓派某个目录
+1.  下载start.sh到树莓派某个目录
 2.  chmod +x start.sh
 3.  ./start.sh
 
